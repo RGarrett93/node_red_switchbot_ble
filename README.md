@@ -11,3 +11,5 @@ https://flows.nodered.org/node/node-red-contrib-noble-bluetooth
 Use the switchbot local app to find out what the mac address for the switchbot you want to control and edit the nodes to suit (112233445566) eg (cc147bb13d77).
 
 I've only tested this with my pi 4 - raspbian lite running node red v2.0.2
+
+Import 'flows.json' in to Node Red.
