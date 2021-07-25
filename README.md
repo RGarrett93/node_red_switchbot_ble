@@ -4,6 +4,8 @@ Node Red example for operating Switchbot Bot via BLE
 Very basic - for anyone that wants to operate a switchbot bot directly with Bluetooth control, could be improved massively: please share if you do improve it!
 I could not find any examples on node red to work with the switchbot apart from their official API that requires the switchbot hub & cloud services... so I created this - which works well for me.
 
+This only does the 'Press' command - other commands could easily be added.
+
 You will need to install 'node-red-contrib-noble-bluetooth 0.9.1' first.
 
 https://flows.nodered.org/node/node-red-contrib-noble-bluetooth
