@@ -1,13 +1,6 @@
 [
     {
-        "id": "d8573333aa21c865",
-        "type": "tab",
-        "label": "Switchbot BLE control",
-        "disabled": false,
-        "info": ""
-    },
-    {
-        "id": "418daf73cb8ed407",
+        "id": "2164f90cc5715898",
         "type": "debug",
         "z": "d8573333aa21c865",
         "name": "",
@@ -17,32 +10,32 @@
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
-        "x": 1250,
-        "y": 100,
+        "x": 1050,
+        "y": 240,
         "wires": []
     },
     {
-        "id": "85163c7eca88dfa0",
+        "id": "b36f5cd951bed0aa",
         "type": "function",
         "z": "d8573333aa21c865",
         "name": "",
-        "func": "msg.payload = Buffer.from(\"\\x57\\x01\")\nreturn msg;",
+        "func": "global.set(\"flagstart\",0);\nmsg.payload = Buffer.from(\"\\x57\\x01\")\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1080,
-        "y": 280,
+        "x": 1100,
+        "y": 420,
         "wires": [
             [
-                "c41321b4bc66cb22",
-                "9eda897c2d936e8f"
+                "fa9b3ac8f8ac542b",
+                "2a43485e69280acc"
             ]
         ]
     },
     {
-        "id": "9f2c2ce42f892c69",
+        "id": "ea51299f731e8a5b",
         "type": "switch",
         "z": "d8573333aa21c865",
         "name": "",
@@ -53,21 +46,29 @@
                 "t": "eq",
                 "v": "connected",
                 "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "disconnected",
+                "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 1,
-        "x": 710,
-        "y": 280,
+        "outputs": 2,
+        "x": 730,
+        "y": 420,
         "wires": [
             [
-                "949ab75b0eba6e92"
+                "a7cc20d75c6d3ae5"
+            ],
+            [
+                "1595c24bc3909fb1"
             ]
         ]
     },
     {
-        "id": "949ab75b0eba6e92",
+        "id": "a7cc20d75c6d3ae5",
         "type": "change",
         "z": "d8573333aa21c865",
         "name": "Device Name",
@@ -85,41 +86,16 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 900,
-        "y": 280,
+        "x": 920,
+        "y": 420,
         "wires": [
             [
-                "85163c7eca88dfa0"
+                "b36f5cd951bed0aa"
             ]
         ]
     },
     {
-        "id": "4a5762f8ca6cd90f",
-        "type": "BLE device",
-        "z": "d8573333aa21c865",
-        "name": "",
-        "x": 870,
-        "y": 100,
-        "wires": [
-            [
-                "9f2c2ce42f892c69",
-                "418daf73cb8ed407",
-                "e86514b63e348560"
-            ]
-        ]
-    },
-    {
-        "id": "c41321b4bc66cb22",
-        "type": "BLE out",
-        "z": "d8573333aa21c865",
-        "characteristic": "cba20002224d11e69fb80002a5d5c51b",
-        "name": "",
-        "x": 1240,
-        "y": 280,
-        "wires": []
-    },
-    {
-        "id": "9eda897c2d936e8f",
+        "id": "fa9b3ac8f8ac542b",
         "type": "debug",
         "z": "d8573333aa21c865",
         "name": "",
@@ -131,19 +107,19 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1250,
-        "y": 340,
+        "x": 1270,
+        "y": 480,
         "wires": []
     },
     {
-        "id": "fcbc3f203c979382",
+        "id": "b69085fb15aa76ce",
         "type": "inject",
         "z": "d8573333aa21c865",
         "name": "Force inject",
         "props": [
             {
                 "p": "peripheral",
-                "v": "112233445566",
+                "v": "\"112233445566\"",
                 "vt": "str"
             }
         ],
@@ -152,23 +128,23 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 470,
-        "y": 240,
+        "x": 490,
+        "y": 380,
         "wires": [
             [
-                "4a5762f8ca6cd90f"
+                "63fd483f6e7d350f"
             ]
         ]
     },
     {
-        "id": "9aec6ab824675c61",
+        "id": "c9a7375608973643",
         "type": "inject",
         "z": "d8573333aa21c865",
         "name": "Connected - bypass",
         "props": [
             {
                 "p": "peripheral",
-                "v": "112233445566",
+                "v": "\"112233445566\"",
                 "vt": "str"
             },
             {
@@ -181,54 +157,52 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "connected",
-        "x": 490,
-        "y": 280,
+        "x": 510,
+        "y": 420,
         "wires": [
             [
-                "9f2c2ce42f892c69"
+                "ea51299f731e8a5b"
             ]
         ]
     },
     {
-        "id": "ae3375329cf8014e",
+        "id": "16eb560d747cde70",
         "type": "function",
         "z": "d8573333aa21c865",
         "name": "",
-        "func": "var botalive = global.get(\"botcon\");\nif (botalive!=1){\nif (msg.payload==\"on\"||\"off\")\n{\nmsg.payload=0;\nmsg.peripheral=\"112233445566\";\nreturn msg;\n}\n}",
+        "func": "var botalive = global.get(\"botcon\");\nif (botalive!=1){\nif (msg.payload==\"on\"||\"off\")\n{\nglobal.set(\"flagstart\",1);\nmsg.payload=0;\nmsg.peripheral=\"112233445566\";\nreturn msg;\n}\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 500,
-        "y": 100,
+        "x": 540,
+        "y": 240,
         "wires": [
             [
-                "4a5762f8ca6cd90f"
+                "63fd483f6e7d350f"
             ]
         ]
     },
     {
-        "id": "e86514b63e348560",
+        "id": "915d86f435a99fd1",
         "type": "function",
         "z": "d8573333aa21c865",
         "name": "",
-        "func": "if(msg.topic==\"connected\")\n{\nglobal.set(\"botcon\",1)\n} \nif(msg.topic==\"disconnected\")\n{\nglobal.set(\"botcon\",0)\n} ",
+        "func": "if(msg.topic==\"connected\")\n{\nglobal.set(\"botcon\",1);\n} else\n{\nglobal.set(\"botcon\",0);\n} ",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
-        "y": 160,
+        "x": 1020,
+        "y": 300,
         "wires": [
-            [
-                "d7dc389886915f39"
-            ]
+            []
         ]
     },
     {
-        "id": "d778392ee229c12b",
+        "id": "a3c78653fe7d2691",
         "type": "function",
         "z": "d8573333aa21c865",
         "name": "",
@@ -238,36 +212,19 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 500,
-        "y": 160,
+        "x": 540,
+        "y": 300,
         "wires": [
             [
-                "949ab75b0eba6e92"
+                "a7cc20d75c6d3ae5"
             ]
         ]
     },
     {
-        "id": "d7dc389886915f39",
-        "type": "debug",
-        "z": "d8573333aa21c865",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1250,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "7402c82438d28d1d",
+        "id": "39d53de62a09dc58",
         "type": "inject",
         "z": "d8573333aa21c865",
-        "name": "Switchbot Switch",
+        "name": "Switchbot Press",
         "props": [
             {
                 "p": "payload"
@@ -280,13 +237,208 @@
         "topic": "",
         "payload": "on",
         "payloadType": "str",
-        "x": 200,
-        "y": 120,
+        "x": 260,
+        "y": 280,
         "wires": [
             [
-                "ae3375329cf8014e",
-                "d778392ee229c12b"
+                "16eb560d747cde70",
+                "a3c78653fe7d2691"
             ]
         ]
+    },
+    {
+        "id": "63fd483f6e7d350f",
+        "type": "BLE device",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "x": 770,
+        "y": 240,
+        "wires": [
+            [
+                "2164f90cc5715898",
+                "ea51299f731e8a5b",
+                "915d86f435a99fd1"
+            ]
+        ]
+    },
+    {
+        "id": "2a43485e69280acc",
+        "type": "BLE out",
+        "z": "d8573333aa21c865",
+        "characteristic": "cba20002224d11e69fb80002a5d5c51b",
+        "name": "",
+        "x": 1280,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "bc6509c42f44905c",
+        "type": "BLE scanner",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "services": "cba20d00224d11e69fb80002a5d5c51b",
+        "servicesType": "str",
+        "continuous": false,
+        "x": 610,
+        "y": 180,
+        "wires": [
+            [
+                "63fd483f6e7d350f",
+                "c00a84330c22a407"
+            ]
+        ]
+    },
+    {
+        "id": "a53be02107dad2d7",
+        "type": "change",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "continuous",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "timeout",
+                "pt": "msg",
+                "to": "10000",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "bc6509c42f44905c"
+            ]
+        ]
+    },
+    {
+        "id": "ec2238f135999569",
+        "type": "inject",
+        "z": "d8573333aa21c865",
+        "name": "Scan continuously for 10 secs",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "start",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 180,
+        "y": 180,
+        "wires": [
+            [
+                "a53be02107dad2d7"
+            ]
+        ]
+    },
+    {
+        "id": "c00a84330c22a407",
+        "type": "debug",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 790,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "0b7ff5181eaf8501",
+        "type": "change",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "continuous",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 140,
+        "wires": [
+            [
+                "bc6509c42f44905c"
+            ]
+        ]
+    },
+    {
+        "id": "1e2c56a4998deedd",
+        "type": "inject",
+        "z": "d8573333aa21c865",
+        "name": "Start continuous",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "start",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 220,
+        "y": 140,
+        "wires": [
+            [
+                "0b7ff5181eaf8501"
+            ]
+        ]
+    },
+    {
+        "id": "1595c24bc3909fb1",
+        "type": "function",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "func": "var flagstart = global.get(\"flagstart\");\nif (flagstart==1){\nmsg.payload = \"on\";\nreturn msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 520,
+        "wires": [
+            [
+                "16eb560d747cde70",
+                "6d4d8b6b19588391"
+            ]
+        ]
+    },
+    {
+        "id": "6d4d8b6b19588391",
+        "type": "debug",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 520,
+        "wires": []
     }
 ]
