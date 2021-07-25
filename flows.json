@@ -1,0 +1,292 @@
+[
+    {
+        "id": "d8573333aa21c865",
+        "type": "tab",
+        "label": "Switchbot BLE control",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "418daf73cb8ed407",
+        "type": "debug",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 1250,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "85163c7eca88dfa0",
+        "type": "function",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "func": "msg.payload = Buffer.from(\"\\x57\\x01\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1080,
+        "y": 280,
+        "wires": [
+            [
+                "c41321b4bc66cb22",
+                "9eda897c2d936e8f"
+            ]
+        ]
+    },
+    {
+        "id": "9f2c2ce42f892c69",
+        "type": "switch",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "connected",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 710,
+        "y": 280,
+        "wires": [
+            [
+                "949ab75b0eba6e92"
+            ]
+        ]
+    },
+    {
+        "id": "949ab75b0eba6e92",
+        "type": "change",
+        "z": "d8573333aa21c865",
+        "name": "Device Name",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "read",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 900,
+        "y": 280,
+        "wires": [
+            [
+                "85163c7eca88dfa0"
+            ]
+        ]
+    },
+    {
+        "id": "4a5762f8ca6cd90f",
+        "type": "BLE device",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "x": 870,
+        "y": 100,
+        "wires": [
+            [
+                "9f2c2ce42f892c69",
+                "418daf73cb8ed407",
+                "e86514b63e348560"
+            ]
+        ]
+    },
+    {
+        "id": "c41321b4bc66cb22",
+        "type": "BLE out",
+        "z": "d8573333aa21c865",
+        "characteristic": "cba20002224d11e69fb80002a5d5c51b",
+        "name": "",
+        "x": 1240,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "9eda897c2d936e8f",
+        "type": "debug",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1250,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "fcbc3f203c979382",
+        "type": "inject",
+        "z": "d8573333aa21c865",
+        "name": "Force inject",
+        "props": [
+            {
+                "p": "peripheral",
+                "v": "112233445566",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 470,
+        "y": 240,
+        "wires": [
+            [
+                "4a5762f8ca6cd90f"
+            ]
+        ]
+    },
+    {
+        "id": "9aec6ab824675c61",
+        "type": "inject",
+        "z": "d8573333aa21c865",
+        "name": "Connected - bypass",
+        "props": [
+            {
+                "p": "peripheral",
+                "v": "112233445566",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "connected",
+        "x": 490,
+        "y": 280,
+        "wires": [
+            [
+                "9f2c2ce42f892c69"
+            ]
+        ]
+    },
+    {
+        "id": "ae3375329cf8014e",
+        "type": "function",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "func": "var dysonalive = global.get(\"dycon\");\nif (dysonalive!=1){\nif (msg.payload==\"on\"||\"off\")\n{\nmsg.payload=0;\nmsg.peripheral=\"112233445566\";\nreturn msg;\n}\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 100,
+        "wires": [
+            [
+                "4a5762f8ca6cd90f"
+            ]
+        ]
+    },
+    {
+        "id": "e86514b63e348560",
+        "type": "function",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "func": "if(msg.topic==\"connected\")\n{\nglobal.set(\"dycon\",1)\n} \nif(msg.topic==\"disconnected\")\n{\nglobal.set(\"dycon\",0)\n} ",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1100,
+        "y": 160,
+        "wires": [
+            [
+                "d7dc389886915f39"
+            ]
+        ]
+    },
+    {
+        "id": "d778392ee229c12b",
+        "type": "function",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "func": "var dysonalive = global.get(\"dycon\");\nif (dysonalive==1){\nif (msg.payload==\"on\"||\"off\")\n{\nmsg.payload=0;\nmsg.peripheral=\"112233445566\";\nreturn msg;\n}\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 160,
+        "wires": [
+            [
+                "949ab75b0eba6e92"
+            ]
+        ]
+    },
+    {
+        "id": "d7dc389886915f39",
+        "type": "debug",
+        "z": "d8573333aa21c865",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1250,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "7402c82438d28d1d",
+        "type": "inject",
+        "z": "d8573333aa21c865",
+        "name": "Dyson Switch",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "on",
+        "payloadType": "str",
+        "x": 190,
+        "y": 120,
+        "wires": [
+            [
+                "ae3375329cf8014e",
+                "d778392ee229c12b"
+            ]
+        ]
+    }
+]
