@@ -128,8 +128,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 490,
-        "y": 380,
+        "x": 250,
+        "y": 360,
         "wires": [
             [
                 "63fd483f6e7d350f"
@@ -272,139 +272,6 @@
         "wires": []
     },
     {
-        "id": "bc6509c42f44905c",
-        "type": "BLE scanner",
-        "z": "d8573333aa21c865",
-        "name": "",
-        "services": "cba20d00224d11e69fb80002a5d5c51b",
-        "servicesType": "str",
-        "continuous": false,
-        "x": 610,
-        "y": 180,
-        "wires": [
-            [
-                "63fd483f6e7d350f",
-                "c00a84330c22a407"
-            ]
-        ]
-    },
-    {
-        "id": "a53be02107dad2d7",
-        "type": "change",
-        "z": "d8573333aa21c865",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "continuous",
-                "pt": "msg",
-                "to": "true",
-                "tot": "bool"
-            },
-            {
-                "t": "set",
-                "p": "timeout",
-                "pt": "msg",
-                "to": "10000",
-                "tot": "num"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 420,
-        "y": 180,
-        "wires": [
-            [
-                "bc6509c42f44905c"
-            ]
-        ]
-    },
-    {
-        "id": "ec2238f135999569",
-        "type": "inject",
-        "z": "d8573333aa21c865",
-        "name": "Scan continuously for 10 secs",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "start",
-        "payload": "{}",
-        "payloadType": "json",
-        "x": 180,
-        "y": 180,
-        "wires": [
-            [
-                "a53be02107dad2d7"
-            ]
-        ]
-    },
-    {
-        "id": "c00a84330c22a407",
-        "type": "debug",
-        "z": "d8573333aa21c865",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "x": 790,
-        "y": 180,
-        "wires": []
-    },
-    {
-        "id": "0b7ff5181eaf8501",
-        "type": "change",
-        "z": "d8573333aa21c865",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "continuous",
-                "pt": "msg",
-                "to": "true",
-                "tot": "bool"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 410,
-        "y": 140,
-        "wires": [
-            [
-                "bc6509c42f44905c"
-            ]
-        ]
-    },
-    {
-        "id": "1e2c56a4998deedd",
-        "type": "inject",
-        "z": "d8573333aa21c865",
-        "name": "Start continuous",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "start",
-        "payload": "{}",
-        "payloadType": "json",
-        "x": 220,
-        "y": 140,
-        "wires": [
-            [
-                "0b7ff5181eaf8501"
-            ]
-        ]
-    },
-    {
         "id": "1595c24bc3909fb1",
         "type": "function",
         "z": "d8573333aa21c865",
@@ -439,6 +306,26 @@
         "statusType": "auto",
         "x": 950,
         "y": 520,
+        "wires": []
+    },
+    {
+        "id": "f8aead5939c11a2b",
+        "type": "comment",
+        "z": "d8573333aa21c865",
+        "name": "Requires Switchbot MAC address",
+        "info": "Requires Switchbot MAC address",
+        "x": 250,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "cc578ffbee7383d2",
+        "type": "comment",
+        "z": "d8573333aa21c865",
+        "name": "BLE Connected",
+        "info": "BLE Connected",
+        "x": 500,
+        "y": 380,
         "wires": []
     }
 ]
