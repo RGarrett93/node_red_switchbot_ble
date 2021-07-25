@@ -267,7 +267,7 @@
         "id": "7402c82438d28d1d",
         "type": "inject",
         "z": "d8573333aa21c865",
-        "name": "Dyson Switch",
+        "name": "Switchbot Switch",
         "props": [
             {
                 "p": "payload"
@@ -280,7 +280,7 @@
         "topic": "",
         "payload": "on",
         "payloadType": "str",
-        "x": 190,
+        "x": 200,
         "y": 120,
         "wires": [
             [
